@@ -12,6 +12,8 @@ function App(): JSX.Element {
 
     const interval = setInterval(async () => {
       const networkStatus = await window.api.checkNetworkStatus()
+
+      console.log(networkStatus)
       setNetworkStatus({
         status: networkStatus.status,
         networkInterfaces: JSON.stringify(networkStatus.networkInterfaces, null, 2)

@@ -12,6 +12,9 @@ export const checkNetworkStatus = (): CheckNetworkStatusResponse => {
         interfaceObject.family !== 'IPv6' // IPv6 제외
     )
   )
+
+  console.log(isOnline)
+
   return {
     status: isOnline,
     networkInterfaces
