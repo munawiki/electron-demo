@@ -12,7 +12,10 @@ function App(): JSX.Element {
   return (
     <div className="container">
       <p>Framework: React</p>
-      <pre>{osInfo}</pre>
+      <div style={{ marginBottom: 10 }}>
+        <pre>{osInfo}</pre>
+      </div>
+      <button>Check Network Status</button>
     </div>
   )
 }
