@@ -13,7 +13,6 @@ function App(): JSX.Element {
     const interval = setInterval(async () => {
       const networkStatus = await window.api.checkNetworkStatus()
 
-      console.log(networkStatus)
       setNetworkStatus({
         status: networkStatus.status,
         networkInterfaces: JSON.stringify(networkStatus.networkInterfaces, null, 2)
@@ -34,7 +33,14 @@ function App(): JSX.Element {
       </div>
       <hr />
       <div>
-        <p>Network status: {networkStatus?.status ? 'online' : 'offline'}</p>
+        <p>
+          Network status:{' '}
+          {networkStatus?.status ? (
+            <span style={{ color: 'green' }}>online</span>
+          ) : (
+            <span style={{ color: 'red' }}>offline</span>
+          )}
+        </p>
         <pre>{networkStatus?.networkInterfaces}</pre>
       </div>
     </div>

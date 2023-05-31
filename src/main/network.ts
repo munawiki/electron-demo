@@ -9,11 +9,10 @@ export const checkNetworkStatus = (): CheckNetworkStatusResponse => {
       (interfaceObject) =>
         !interfaceObject.internal && // 내부 네트워크 인터페이스 제외
         interfaceObject.address !== '127.0.0.1' && // 로컬 호스트 제외
-        interfaceObject.family !== 'IPv6' // IPv6 제외
+        interfaceObject.family !== 'IPv6' && // IPv6 제외
+        interfaceObject.mac !== '00:00:00:00:00:00' // 가상 네트워크 인터페이스 제외
     )
   )
-
-  console.log(isOnline)
 
   return {
     status: isOnline,
