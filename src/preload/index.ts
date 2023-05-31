@@ -3,7 +3,7 @@ import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
 const api = {
-  receiveValue: (callback: (params: string) => void): void => {
+  getOSInformations: (callback: (params: string) => void): void => {
     ipcRenderer.on('os-informations', (_event, value: string) => {
       callback(value)
     })

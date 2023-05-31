@@ -4,7 +4,7 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: {
-      receiveValue: (callback: (params: string) => void) => void
+      getOSInformations: (callback: (params: string) => void) => void
     }
   }
 }

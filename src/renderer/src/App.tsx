@@ -4,7 +4,7 @@ function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<string>('')
 
   useEffect(() => {
-    window.api.receiveValue((value: string) => {
+    window.api.getOSInformations((value: string) => {
       setOsInfo(value)
     })
   }, [])
