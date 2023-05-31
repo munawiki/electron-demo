@@ -7,6 +7,9 @@ function App(): JSX.Element {
     networkInterfaces: string
   }>()
 
+  const [fileLoading, setFileLoading] = useState<boolean>(false)
+  const [fileText, setFileText] = useState<string>('')
+
   useEffect(() => {
     window.api.getOSInformations(setOsInfo)
 
@@ -22,6 +25,18 @@ function App(): JSX.Element {
     return () => clearInterval(interval)
   }, [])
 
+  const handleClickWriteTmpFile = async (): Promise<void> => {
+    setFileLoading(true)
+    await window.api.writeHelloWorldTextFile()
+    setFileLoading(false)
+  }
+
+  const handleClickReadTmpFile = async (): Promise<void> => {
+    setFileLoading(true)
+    setFileText(await window.api.readHelloWorldTextFile())
+    setFileLoading(false)
+  }
+
   return (
     <div className="container">
       <div>
@@ -33,19 +48,24 @@ function App(): JSX.Element {
       </div>
       <hr />
       <div>
-        <button>write /tmp file</button>
-        <button>read /tmp file</button>
+        <button onClick={handleClickWriteTmpFile}>write /tmp file</button>
+        <button onClick={handleClickReadTmpFile}>read /tmp file</button>
+        <p>fileText: {}</p>
       </div>
       <hr />
       <div>
-        <p>
-          Network status:{' '}
-          {networkStatus?.status ? (
-            <span style={{ color: 'green' }}>online</span>
-          ) : (
-            <span style={{ color: 'red' }}>offline</span>
-          )}
-        </p>
+        {fileLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <p>
+            Network status:{' '}
+            {networkStatus?.status ? (
+              <span style={{ color: 'green' }}>online</span>
+            ) : (
+              <span style={{ color: 'red' }}>offline</span>
+            )}
+          </p>
+        )}
         <pre>{networkStatus?.networkInterfaces}</pre>
       </div>
     </div>

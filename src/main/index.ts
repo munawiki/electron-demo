@@ -3,7 +3,11 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getOSInformations } from './os'
-import { handleCheckNetworkStatus, handleReadHelloWorldTextFile } from './handlers'
+import {
+  handleCheckNetworkStatus,
+  handleReadHelloWorldTextFile,
+  handleWriteHelloWorldTextFile
+} from './handlers'
 import { readHelloWorldTextFile, writeHelloWorldTextFile } from './file'
 
 function createWindow(): void {
@@ -53,7 +57,7 @@ app.whenReady().then(() => {
 
   ipcMain.handle('check-network-status', handleCheckNetworkStatus)
   ipcMain.handle('read-file', handleReadHelloWorldTextFile)
-  ipcMain.on('write-file', writeHelloWorldTextFile)
+  ipcMain.handle('write-file', handleWriteHelloWorldTextFile)
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
