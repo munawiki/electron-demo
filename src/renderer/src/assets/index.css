@@ -21,3 +21,10 @@ body {
 
   padding: 20px
 }
+
+.container > hr{
+  width: 100%;
+  border: 1px solid #86a5b1;
+
+  margin: 10px 0;
+}

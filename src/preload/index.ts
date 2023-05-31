@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { CheckNetworkStatusResponse } from '../shared/node/types'
 
 // Custom APIs for renderer
 const api = {
@@ -8,7 +9,8 @@ const api = {
       callback(value)
     })
   },
-  checkNetworkStatus: (): Promise<boolean> => ipcRenderer.invoke('check-network-status')
+  checkNetworkStatus: (): Promise<CheckNetworkStatusResponse> =>
+    ipcRenderer.invoke('check-network-status')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

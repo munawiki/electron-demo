@@ -3,7 +3,6 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getOSInformations } from './os'
-import { checkNetworkStatus } from './network'
 import { handleCheckNetworkStatus } from './handlers'
 
 function createWindow(): void {

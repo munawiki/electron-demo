@@ -1,9 +1,7 @@
 import os from 'os'
+import { CheckNetworkStatusResponse } from '../shared/node/types'
 
-export const checkNetworkStatus = (): {
-  status: boolean
-  networkInterfaces: NodeJS.Dict<os.NetworkInterfaceInfo[]>
-} => {
+export const checkNetworkStatus = (): CheckNetworkStatusResponse => {
   const networkInterfaces = os.networkInterfaces()
 
   const isOnline = Object.values(networkInterfaces).some((interfaces) =>
