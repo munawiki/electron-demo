@@ -4,9 +4,10 @@ import os from 'os'
 
 const tmpFolderPaths = os.tmpdir()
 
-export const writeHelloWorldTextFile = (): Promise<void> => {
+export const writeHelloWorldTextFile = async (): Promise<string> => {
   const filePath = path.join(tmpFolderPaths, 'hello-world.txt')
-  return fsPromises.writeFile(filePath, 'Hello World!')
+  await fsPromises.writeFile(filePath, 'Hello World!')
+  return filePath
 }
 
 export const readHelloWorldTextFile = (): Promise<string> => {

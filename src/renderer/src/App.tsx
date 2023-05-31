@@ -9,6 +9,7 @@ function App(): JSX.Element {
 
   const [fileLoading, setFileLoading] = useState<boolean>(false)
   const [fileText, setFileText] = useState<string>('')
+  const [filePath, setFilePath] = useState<string>('')
 
   useEffect(() => {
     window.api.getOSInformations(setOsInfo)
@@ -27,7 +28,7 @@ function App(): JSX.Element {
 
   const handleClickWriteTmpFile = async (): Promise<void> => {
     setFileLoading(true)
-    await window.api.writeHelloWorldTextFile()
+    setFilePath(await window.api.writeHelloWorldTextFile())
     setFileLoading(false)
   }
 

@@ -7,7 +7,7 @@ declare global {
     api: {
       getOSInformations: (callback: (params: string) => void) => void
       checkNetworkStatus: () => Promise<CheckNetworkStatusResponse>
-      writeHelloWorldTextFile: () => Promise<void>
+      writeHelloWorldTextFile: () => Promise<string>
       readHelloWorldTextFile: () => Promise<string>
     }
   }
