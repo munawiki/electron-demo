@@ -50,7 +50,7 @@ function App(): JSX.Element {
       <div>
         <button onClick={handleClickWriteTmpFile}>write /tmp file</button>
         <button onClick={handleClickReadTmpFile}>read /tmp file</button>
-        <p>fileText: {}</p>
+        <p>fileText: {fileText}</p>
       </div>
       <hr />
       <div>
