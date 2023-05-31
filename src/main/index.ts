@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { getOSInformations } from './os'
 
 function createWindow(): void {
   // Create the browser window.
@@ -21,10 +22,16 @@ function createWindow(): void {
     mainWindow.show()
   })
 
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.send('os-informations', getOSInformations())
+  })
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
+
+  mainWindow.webContents.openDevTools()
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
