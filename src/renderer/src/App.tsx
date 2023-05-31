@@ -56,6 +56,10 @@ function App(): JSX.Element {
       </div>
       <hr />
       <div>
+        <button onClick={}>Crawl</button>
+      </div>
+      <hr />
+      <div>
         {fileLoading ? (
           <p>Loading...</p>
         ) : (
