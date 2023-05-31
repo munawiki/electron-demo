@@ -9,6 +9,7 @@ declare global {
       checkNetworkStatus: () => Promise<CheckNetworkStatusResponse>
       writeHelloWorldTextFile: () => Promise<string>
       readHelloWorldTextFile: () => Promise<string>
+      crawlLOL: () => Promise<string[]>
     }
   }
 }
