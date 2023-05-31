@@ -33,6 +33,11 @@ function App(): JSX.Element {
       </div>
       <hr />
       <div>
+        <button>write /tmp file</button>
+        <button>read /tmp file</button>
+      </div>
+      <hr />
+      <div>
         <p>
           Network status:{' '}
           {networkStatus?.status ? (
