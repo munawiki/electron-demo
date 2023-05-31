@@ -1,7 +1,11 @@
 import os from 'os'
 
-export const checkNetworkStatus = (): boolean => {
+export const checkNetworkStatus = (): {
+  status: boolean
+  networkInterfaces: NodeJS.Dict<os.NetworkInterfaceInfo[]>
+} => {
   const networkInterfaces = os.networkInterfaces()
+
   const isOnline = Object.values(networkInterfaces).some((interfaces) =>
     interfaces?.some(
       (interfaceObject) =>
@@ -10,5 +14,8 @@ export const checkNetworkStatus = (): boolean => {
         interfaceObject.family !== 'IPv6' // IPv6 제외
     )
   )
-  return isOnline
+  return {
+    status: isOnline,
+    networkInterfaces
+  }
 }
