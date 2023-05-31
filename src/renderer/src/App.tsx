@@ -51,6 +51,7 @@ function App(): JSX.Element {
       <div>
         <button onClick={handleClickWriteTmpFile}>write /tmp file</button>
         <button onClick={handleClickReadTmpFile}>read /tmp file</button>
+        <p>filePath: {filePath}</p>
         <p>fileText: {fileText}</p>
       </div>
       <hr />
