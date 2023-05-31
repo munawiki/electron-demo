@@ -7,7 +7,8 @@ const api = {
     ipcRenderer.on('os-informations', (_event, value: string) => {
       callback(value)
     })
-  }
+  },
+  checkNetworkStatus: (): Promise<boolean> => ipcRenderer.invoke('check-network-status')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

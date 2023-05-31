@@ -5,6 +5,7 @@ declare global {
     electron: ElectronAPI
     api: {
       getOSInformations: (callback: (params: string) => void) => void
+      checkNetworkStatus: () => Promise<boolean>
     }
   }
 }

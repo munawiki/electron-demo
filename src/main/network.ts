@@ -1,42 +1,14 @@
-import net from 'net'
+import os from 'os'
 
-export const checkNetworkStatus = ({
-  host,
-  onOpen,
-  onClose,
-  onError
-}: {
-  host: string
-  onOpen: () => void
-  onClose: () => void
-  onError: (error: Error) => void
-}): void => {
-  const socket = new net.Socket()
-
-  socket.setTimeout(1000)
-
-  socket.on('connect', () => {
-    console.log(`${host}: ok`)
-    onOpen()
-    socket.destroy()
-  })
-
-  socket.on('timeout', () => {
-    console.log(`${host}: timeout`)
-    onError(new Error('timeout'))
-    socket.destroy()
-  })
-
-  socket.on('error', (error) => {
-    console.log(`${host}: ${error.message}`)
-    onError(error)
-    socket.destroy()
-  })
-
-  socket.on('close', () => {
-    onClose()
-    console.log(`${host}: close`)
-  })
-
-  socket.connect(80, host)
+export const checkNetworkStatus = (): boolean => {
+  const networkInterfaces = os.networkInterfaces()
+  const isOnline = Object.values(networkInterfaces).some((interfaces) =>
+    interfaces?.some(
+      (interfaceObject) =>
+        !interfaceObject.internal && // 내부 네트워크 인터페이스 제외
+        interfaceObject.address !== '127.0.0.1' && // 로컬 호스트 제외
+        interfaceObject.family !== 'IPv6' // IPv6 제외
+    )
+  )
+  return isOnline
 }
