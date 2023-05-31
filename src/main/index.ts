@@ -3,7 +3,8 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getOSInformations } from './os'
-import { handleCheckNetworkStatus } from './handlers'
+import { handleCheckNetworkStatus, handleReadHelloWorldTextFile } from './handlers'
+import { readHelloWorldTextFile, writeHelloWorldTextFile } from './file'
 
 function createWindow(): void {
   // Create the browser window.
@@ -51,6 +52,8 @@ app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electron')
 
   ipcMain.handle('check-network-status', handleCheckNetworkStatus)
+  ipcMain.handle('read-file', handleReadHelloWorldTextFile)
+  ipcMain.on('write-file', writeHelloWorldTextFile)
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
