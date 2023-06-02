@@ -39,9 +39,7 @@ function App(): JSX.Element {
     setFileLoading(false)
   }
 
-  const handleCrawlLOL = async (): Promise<void> => {
-    setCrawledData(await window.api.crawlLOL())
-  }
+  const handleCrawlNews = async (): Promise<void> => setCrawledData(await window.api.crawlLOL())
 
   return (
     <div className="container">
@@ -61,7 +59,7 @@ function App(): JSX.Element {
       </div>
       <hr />
       <div>
-        <button onClick={handleCrawlLOL}>Crawl LOL</button>
+        <button onClick={handleCrawlNews}>Crawl LOL</button>
         {crawledData.length > 0 && (
           <ul>
             {crawledData.map((data, index) => (

@@ -20,6 +20,6 @@ export const handleReadHelloWorldTextFile = async (_event: IpcMainInvokeEvent): 
   return await readHelloWorldTextFile()
 }
 
-export const handleCrawlLOL = async (_event: IpcMainInvokeEvent): Promise<string[]> => {
+export const handleCrawlNews = async (_event: IpcMainInvokeEvent): Promise<string[]> => {
   return await crawlNews()
 }
