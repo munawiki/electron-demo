@@ -3,13 +3,18 @@
   margin: 0;
 }
 
-.container{
+body {
+  background-color: #282c34;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
   display: flex;
   align-items: flex-start;
   justify-content: center;
 
   flex-direction: column;
 
-  padding: 20px
+  padding: 20px;
 }
-
