@@ -39,7 +39,7 @@ function App(): JSX.Element {
     setFileLoading(false)
   }
 
-  const handleCrawlNews = async (): Promise<void> => setCrawledData(await window.api.crawlLOL())
+  const handleCrawlNews = async (): Promise<void> => setCrawledData(await window.api.crawlNews())
 
   return (
     <div className="container">
