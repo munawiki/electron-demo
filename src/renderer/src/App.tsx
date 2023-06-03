@@ -1,3 +1,4 @@
+import { Button, Divider } from 'antd'
 import { useEffect, useState } from 'react'
 
 function App(): JSX.Element {
@@ -10,7 +11,7 @@ function App(): JSX.Element {
   const [fileLoading, setFileLoading] = useState<boolean>(false)
   const [fileText, setFileText] = useState<string>('')
   const [filePath, setFilePath] = useState<string>('')
-  const [crawledData, setCrawledData] = useState<string[]>('')
+  const [crawledData, setCrawledData] = useState<string[]>([])
 
   useEffect(() => {
     window.api.getOSInformations(setOsInfo)
@@ -46,20 +47,20 @@ function App(): JSX.Element {
       <div>
         <p>Framework: React</p>
       </div>
-      <hr />
+      <Divider />
       <div style={{ marginBottom: 10 }}>
         <pre>{osInfo}</pre>
       </div>
-      <hr />
+      <Divider />
       <div>
-        <button onClick={handleClickWriteTmpFile}>write /tmp file</button>
-        <button onClick={handleClickReadTmpFile}>read /tmp file</button>
+        <Button onClick={handleClickWriteTmpFile}>write /tmp file</Button>
+        <Button onClick={handleClickReadTmpFile}>read /tmp file</Button>
         <p>filePath: {filePath}</p>
         <p>fileText: {fileText}</p>
       </div>
-      <hr />
+      <Divider />
       <div>
-        <button onClick={handleCrawlNews}>Crawl LOL</button>
+        <Button onClick={handleCrawlNews}>Crawl News</Button>
         {crawledData.length > 0 && (
           <ul>
             {crawledData.map((data, index) => (
@@ -68,7 +69,7 @@ function App(): JSX.Element {
           </ul>
         )}
       </div>
-      <hr />
+      <Divider />
       <div>
         {fileLoading ? (
           <p>Loading...</p>
