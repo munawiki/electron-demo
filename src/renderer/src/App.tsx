@@ -5,9 +5,7 @@ import { IGetOSInformations } from 'src/shared/types'
 function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<IGetOSInformations>()
 
-  useEffect(() => {
-    window.api.getOSInformations(setOsInfo)
-  }, [])
+  window.api.getOSInformations(setOsInfo)
 
   console.log(osInfo)
 

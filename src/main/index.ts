@@ -28,9 +28,7 @@ function createWindow(): void {
     mainWindow.show()
   })
 
-  mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow.webContents.send('os-informations', getOSInformations())
-  })
+  mainWindow.webContents.send('os-informations', getOSInformations())
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
