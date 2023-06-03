@@ -5,7 +5,7 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: {
-      getOSInformations: (callback: (params: IGetOSInformations) => void) => void
+      getOSInformations: () => Promise<IGetOSInformations>
       checkNetworkStatus: () => Promise<CheckNetworkStatusResponse>
       writeHelloWorldTextFile: () => Promise<string>
       readHelloWorldTextFile: () => Promise<string>

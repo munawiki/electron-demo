@@ -28,8 +28,6 @@ function createWindow(): void {
     mainWindow.show()
   })
 
-  mainWindow.webContents.send('os-informations', getOSInformations())
-
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
@@ -53,6 +51,7 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
+  ipcMain.handle('get-os-informations', getOSInformations)
   ipcMain.handle('check-network-status', handleCheckNetworkStatus)
   ipcMain.handle('read-file', handleReadHelloWorldTextFile)
   ipcMain.handle('write-file', handleWriteHelloWorldTextFile)

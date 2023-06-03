@@ -1,14 +1,10 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { CheckNetworkStatusResponse, IGetOSInformations } from '../shared/node/types'
+import { CheckNetworkStatusResponse, IGetOSInformations } from '../shared/types'
 
 // Custom APIs for renderer
 const api = {
-  getOSInformations: (callback: (params: IGetOSInformations) => void): void => {
-    ipcRenderer.on('os-informations', (_event, value: IGetOSInformations) => {
-      callback(value)
-    })
-  },
+  getOSInformations: (): Promise<IGetOSInformations> => ipcRenderer.invoke('get-os-informations'),
   checkNetworkStatus: (): Promise<CheckNetworkStatusResponse> =>
     ipcRenderer.invoke('check-network-status'),
   writeHelloWorldTextFile: (): Promise<string> => ipcRenderer.invoke('write-file'),
