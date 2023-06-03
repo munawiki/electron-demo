@@ -1,5 +1,5 @@
 import os from 'os'
-import { IGetOSInformations } from '../shared/node/types'
+import { IGetOSInformations } from '../shared/types'
 
 export const getOSInformations = (): IGetOSInformations => {
   return {
