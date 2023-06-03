@@ -3,18 +3,13 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getOSInformations } from './os'
-import {
-  handleCheckNetworkStatus,
-  handleCrawlNews,
-  handleReadHelloWorldTextFile,
-  handleWriteHelloWorldTextFile
-} from './handlers'
+import { checkNetworkStatus } from './network'
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1920,
+    height: 1080,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -52,10 +47,7 @@ app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electron')
 
   ipcMain.handle('get-os-informations', getOSInformations)
-  ipcMain.handle('check-network-status', handleCheckNetworkStatus)
-  ipcMain.handle('read-file', handleReadHelloWorldTextFile)
-  ipcMain.handle('write-file', handleWriteHelloWorldTextFile)
-  ipcMain.handle('crawl-news', handleCrawlNews)
+  ipcMain.handle('check-network-status', checkNetworkStatus)
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.

@@ -1,21 +1,23 @@
-import os from 'os'
-import { CheckNetworkStatusResponse } from '../shared/node/types'
+import net from 'net'
+import { NetworkStatus } from '../shared/types'
 
-export const checkNetworkStatus = (): CheckNetworkStatusResponse => {
-  const networkInterfaces = os.networkInterfaces()
+export const checkNetworkStatus = (): Promise<NetworkStatus> => {
+  return new Promise((resolve, reject) => {
+    const socket = net.createConnection({ port: 80, host: 'www.google.com' })
 
-  const isOnline = Object.values(networkInterfaces).some((interfaces) =>
-    interfaces?.some(
-      (interfaceObject) =>
-        !interfaceObject.internal && // 내부 네트워크 인터페이스 제외
-        interfaceObject.address !== '127.0.0.1' && // 로컬 호스트 제외
-        interfaceObject.family !== 'IPv6' && // IPv6 제외
-        interfaceObject.mac !== '00:00:00:00:00:00' // 가상 네트워크 인터페이스 제외
-    )
-  )
+    socket.on('connect', () => {
+      socket.end()
+      resolve({ isOnline: true, isReachable: true })
+    })
 
-  return {
-    status: isOnline,
-    networkInterfaces
-  }
+    socket.on('error', () => {
+      socket.destroy()
+      resolve({ isOnline: true, isReachable: false })
+    })
+
+    socket.setTimeout(5000, () => {
+      socket.destroy()
+      resolve({ isOnline: false, isReachable: false })
+    })
+  })
 }

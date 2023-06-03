@@ -1,17 +1,36 @@
-import { Divider } from 'antd'
+import { Divider, Typography } from 'antd'
 import { useEffect, useState } from 'react'
-import { IGetOSInformations } from 'src/shared/types'
+import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
 
 function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<IGetOSInformations>()
+  const [networkStatus, setNetworkStatus] = useState<NetworkStatus>()
+
+  const getOSInformations = async (): Promise<void> => {
+    const response = await window.api.getOSInformations()
+    setOsInfo(response)
+  }
+
+  const checkNetworkStatus = async (): Promise<void> => {
+    const response = await window.api.checkNetworkStatus()
+    setNetworkStatus(response)
+  }
 
   useEffect(() => {
-    ;(async (): Promise<void> => {
-      const response = await window.api.getOSInformations()
-      setOsInfo(response)
-    })()
+    const getOSInformationInterval = setInterval(() => {
+      getOSInformations()
+    }, 1000)
+
+    checkNetworkStatus()
+    const checkNetworkStatusInterval = setInterval(() => {
+      checkNetworkStatus()
+    }, 5000)
+
+    return () => {
+      clearInterval(getOSInformationInterval)
+      clearInterval(checkNetworkStatusInterval)
+    }
   }, [])
-  console.log(osInfo)
 
   return (
     <div className="container">
@@ -33,6 +52,30 @@ function App(): JSX.Element {
           <p>Type: {osInfo.type}</p>
           <p>Load Avg: {osInfo.loadavg}</p>
           <>CPU: {osInfo.cpus[0].model}</>
+        </>
+      )}
+
+      <Divider />
+
+      {networkStatus && (
+        <>
+          <h2>Network Status</h2>
+          <p>
+            Is Online:{' '}
+            {networkStatus.isOnline ? (
+              <Typography.Text type="success">Yes</Typography.Text>
+            ) : (
+              <Typography.Text type="danger">No</Typography.Text>
+            )}
+          </p>
+          <p>
+            Is Reachable:{' '}
+            {networkStatus.isReachable ? (
+              <Typography.Text type="success">Yes</Typography.Text>
+            ) : (
+              <Typography.Text type="danger">No</Typography.Text>
+            )}
+          </p>
         </>
       )}
     </div>

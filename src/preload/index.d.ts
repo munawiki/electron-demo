@@ -1,12 +1,12 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
-import { CheckNetworkStatusResponse, IGetOSInformations } from '../shared/node/types'
+import { NetworkStatus } from 'src/shared/types'
 
 declare global {
   interface Window {
     electron: ElectronAPI
     api: {
       getOSInformations: () => Promise<IGetOSInformations>
-      checkNetworkStatus: () => Promise<CheckNetworkStatusResponse>
+      checkNetworkStatus: () => Promise<NetworkStatus>
       writeHelloWorldTextFile: () => Promise<string>
       readHelloWorldTextFile: () => Promise<string>
       crawlNews: () => Promise<string[]>

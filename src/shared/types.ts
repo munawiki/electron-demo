@@ -1,8 +1,8 @@
 import os from 'os'
 
-export interface CheckNetworkStatusResponse {
-  status: boolean
-  networkInterfaces: NodeJS.Dict<os.NetworkInterfaceInfo[]>
+export interface NetworkStatus {
+  isOnline: boolean
+  isReachable: boolean
 }
 
 export interface IGetOSInformations {
