@@ -1,48 +1,40 @@
-import { Button, Divider } from 'antd'
+import { Divider } from 'antd'
 import { useEffect, useState } from 'react'
+import { IGetOSInformations } from 'src/shared/types'
 
 function App(): JSX.Element {
-  // const [osInfo, setOsInfo] = useState<string>('')
-  // const [networkStatus, setNetworkStatus] = useState<{
-  //   status: boolean
-  //   networkInterfaces: string
-  // }>()
+  const [osInfo, setOsInfo] = useState<IGetOSInformations>()
 
-  // const [fileLoading, setFileLoading] = useState<boolean>(false)
-  // const [fileText, setFileText] = useState<string>('')
-  // const [filePath, setFilePath] = useState<string>('')
-  // const [crawledData, setCrawledData] = useState<string[]>([])
+  useEffect(() => {
+    window.api.getOSInformations(setOsInfo)
+  }, [])
 
-  // useEffect(() => {
-  //   window.api.getOSInformations(setOsInfo)
+  console.log(osInfo)
 
-  //   const interval = setInterval(async () => {
-  //     const networkStatus = await window.api.checkNetworkStatus()
-
-  //     setNetworkStatus({
-  //       status: networkStatus.status,
-  //       networkInterfaces: JSON.stringify(networkStatus.networkInterfaces, null, 2)
-  //     })
-  //   }, 1000)
-
-  //   return () => clearInterval(interval)
-  // }, [])
-
-  // const handleClickWriteTmpFile = async (): Promise<void> => {
-  //   setFileLoading(true)
-  //   setFilePath(await window.api.writeHelloWorldTextFile())
-  //   setFileLoading(false)
-  // }
-
-  // const handleClickReadTmpFile = async (): Promise<void> => {
-  //   setFileLoading(true)
-  //   setFileText(await window.api.readHelloWorldTextFile())
-  //   setFileLoading(false)
-  // }
-
-  // const handleCrawlNews = async (): Promise<void> => setCrawledData(await window.api.crawlNews())
-
-  return <div className="container"></div>
+  return (
+    <div className="container">
+      <h1>Electron + React + Typescript + Vite</h1>
+      <Divider />
+      {osInfo && (
+        <>
+          <h2>OS Informations</h2>
+          <p>Arch: {osInfo.arch}</p>
+          <p>Platform: {osInfo.platform}</p>
+          <p>Release: {osInfo.release}</p>
+          <p>Uptime: {osInfo.uptime}</p>
+          <p>Total Memory: {osInfo.totalmem}</p>
+          <p>Free Memory: {osInfo.freemem}</p>
+          <p>Home Dir: {osInfo.homedir}</p>
+          <p>Temp Dir: {osInfo.tmpdir}</p>
+          <p>Hostname: {osInfo.hostname}</p>
+          <p>Endianness: {osInfo.endianness}</p>
+          <p>Type: {osInfo.type}</p>
+          <p>Load Avg: {osInfo.loadavg}</p>
+          <>CPU: {osInfo.cpus[0].model}</>
+        </>
+      )}
+    </div>
+  )
 }
 
 export default App
