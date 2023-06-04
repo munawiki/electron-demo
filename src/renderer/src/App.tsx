@@ -1,4 +1,4 @@
-import { Divider, Typography } from 'antd'
+import { Button, Divider, Progress, Typography, Upload } from 'antd'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
 
@@ -22,6 +22,7 @@ function App(): JSX.Element {
     }, 1000)
 
     checkNetworkStatus()
+
     const checkNetworkStatusInterval = setInterval(() => {
       checkNetworkStatus()
     }, 5000)
@@ -76,6 +77,8 @@ function App(): JSX.Element {
               <Typography.Text type="danger">No</Typography.Text>
             )}
           </p>
+          <Divider />
+          <h2>File Read / Write</h2>
         </>
       )}
     </div>
