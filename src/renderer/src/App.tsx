@@ -1,4 +1,4 @@
-import { Col, Divider, Form, Input, Row, Space, Typography } from 'antd'
+import { Col, Divider, Input, Row, Space, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
 
@@ -68,7 +68,7 @@ function App(): JSX.Element {
     }, 5000)
 
     crawlNews()
-    getDynamicContent('https://www.naver.com')
+    getDynamicContent('https://blog.munawiki.dev/')
 
     return () => {
       clearInterval(getOSInformationInterval)
@@ -154,7 +154,10 @@ function App(): JSX.Element {
           </Space>
           <Divider />
           <h2>Dynamic Import</h2>
-          <div dangerouslySetInnerHTML={{ __html: dynamicContent || '' }} />
+          <iframe
+            srcDoc={dynamicContent}
+            style={{ width: '100%', height: '500px', border: 'none' }}
+          />
         </>
       )}
     </div>

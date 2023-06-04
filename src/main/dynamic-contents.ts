@@ -1,5 +1,6 @@
+import axios from 'axios'
+
 export const getDynamicContents = async (url: string): Promise<string> => {
-  const response = await fetch(url)
-  const text = await response.text()
-  return text
+  const { data } = await axios.get(url, { responseType: 'document' })
+  return data
 }
