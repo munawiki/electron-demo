@@ -2,17 +2,6 @@ import { Divider, Input, Space, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
 
-// declare global {
-//   interface Window {
-//     electron: ElectronAPI
-//     api: {
-//       getOSInformations: () => Promise<IGetOSInformations>
-//       checkNetworkStatus: () => Promise<NetworkStatus>
-//       readFile: (path: string) => Promise<string[] | string>
-//     }
-//   }
-// }
-
 function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<IGetOSInformations>()
   const [networkStatus, setNetworkStatus] = useState<NetworkStatus>()
