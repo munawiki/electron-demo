@@ -1,7 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { IGetOSInformations, NetworkStatus } from '../shared/types'
-
 // Custom APIs for renderer
 const api = {
   getOSInformations: (): Promise<IGetOSInformations> => ipcRenderer.invoke('get-os-informations'),
@@ -9,7 +8,9 @@ const api = {
   readFile: (path: string): Promise<string[] | string> => ipcRenderer.invoke('read-file', path),
   writeFile: (path: string, content: string): Promise<void> =>
     ipcRenderer.invoke('write-file', path, content),
-  crawlNews: (): Promise<string[]> => ipcRenderer.invoke('crawl-news')
+  crawlNews: (): Promise<string[]> => ipcRenderer.invoke('crawl-news'),
+  getDynamicContents: (url: string): Promise<string> =>
+    ipcRenderer.invoke('get-dynamic-contents', url)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

@@ -2,17 +2,13 @@ import { Col, Divider, Form, Input, Row, Space, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
 
-// getOSInformations: () => Promise<IGetOSInformations>
-// checkNetworkStatus: () => Promise<NetworkStatus>
-// readFile: (path: string) => Promise<string[] | string>
-// writeFile: (path: string, content: string) => Promise<void>
-
 function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<IGetOSInformations>()
   const [networkStatus, setNetworkStatus] = useState<NetworkStatus>()
   const [files, setFiles] = useState<string[] | string>()
   const [filePath, setFilePath] = useState<string>()
   const [news, setNews] = useState<string[]>()
+  const [dynamicContent, setDynamicContent] = useState<string>()
 
   const getOSInformations = async (): Promise<void> => {
     const response = await window.api.getOSInformations()
@@ -55,6 +51,11 @@ function App(): JSX.Element {
     setNews(response)
   }
 
+  const getDynamicContent = async (url: string): Promise<void> => {
+    const response = await window.api.getDynamicContents(url)
+    setDynamicContent(response)
+  }
+
   useEffect(() => {
     const getOSInformationInterval = setInterval(() => {
       getOSInformations()
@@ -67,6 +68,7 @@ function App(): JSX.Element {
     }, 5000)
 
     crawlNews()
+    getDynamicContent('https://www.naver.com')
 
     return () => {
       clearInterval(getOSInformationInterval)
@@ -150,6 +152,9 @@ function App(): JSX.Element {
               <Typography.Text key={item}>{item}</Typography.Text>
             ))}
           </Space>
+          <Divider />
+          <h2>Dynamic Import</h2>
+          <div dangerouslySetInnerHTML={{ __html: dynamicContent || '' }} />
         </>
       )}
     </div>

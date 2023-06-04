@@ -1,6 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 import { NetworkStatus } from 'src/shared/types'
-
 declare global {
   interface Window {
     electron: ElectronAPI
@@ -10,6 +9,7 @@ declare global {
       readFile: (path: string) => Promise<string[] | string>
       writeFile: (path: string, content: string) => Promise<void>
       crawlNews: () => Promise<string[]>
+      getDynamicContents: (url: string) => Promise<string>
     }
   }
 }
