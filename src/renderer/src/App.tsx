@@ -1,4 +1,5 @@
-import { Col, Divider, Input, Row, Space, Typography } from 'antd'
+import { Col, Divider, Input, Row, Space, Typography, Upload } from 'antd'
+import { UploadChangeParam } from 'antd/es/upload'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
 
@@ -9,6 +10,7 @@ function App(): JSX.Element {
   const [filePath, setFilePath] = useState<string>()
   const [news, setNews] = useState<string[]>()
   const [dynamicContent, setDynamicContent] = useState<string>()
+  const [extractedFiles, setExtractedFiles] = useState<string[]>([])
 
   const getOSInformations = async (): Promise<void> => {
     const response = await window.api.getOSInformations()
@@ -54,6 +56,20 @@ function App(): JSX.Element {
   const getDynamicContent = async (url: string): Promise<void> => {
     const response = await window.api.getDynamicContents(url)
     setDynamicContent(response)
+  }
+
+  const onFileUploadChange = async (info: UploadChangeParam): Promise<void> => {
+    const { file } = info
+    const { originFileObj } = file
+
+    if (!originFileObj) throw new Error('File is not defined')
+
+    try {
+      const extractedFiles = await window.api.extractZip(originFileObj.path)
+      setExtractedFiles(extractedFiles)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
@@ -158,6 +174,17 @@ function App(): JSX.Element {
             srcDoc={dynamicContent}
             style={{ width: '100%', height: '500px', border: 'none' }}
           />
+          <Divider />
+          <h2>Decompress Zip</h2>
+          <Upload.Dragger name="file" multiple onChange={onFileUploadChange}>
+            <p className="ant-upload-drag-icon">Drag & Drop</p>
+            <p className="ant-upload-text">Click or drag file to this area to upload</p>
+          </Upload.Dragger>
+          <Space direction="vertical">
+            {extractedFiles?.map((file) => (
+              <Typography.Text key={file}>{file}</Typography.Text>
+            ))}
+          </Space>
         </>
       )}
     </div>
