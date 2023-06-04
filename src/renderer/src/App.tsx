@@ -219,10 +219,10 @@ function App(): JSX.Element {
           </Space>
           <Divider />
           <h2>Dynamic Import</h2>
-          {/* <iframe
+          <iframe
             srcDoc={dynamicContent}
             style={{ width: '100%', height: '500px', border: 'none' }}
-          /> */}
+          />
           <Divider />
           <h2>Decompress Zip</h2>
           <Upload.Dragger name="file" multiple onChange={onFileUploadChange}>
