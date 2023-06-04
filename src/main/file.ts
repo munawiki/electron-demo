@@ -36,9 +36,5 @@ export const handleReadFile = async (path: string): Promise<string[] | string> =
 }
 
 export const handleWriteFile = async (path: string, content: string): Promise<void> => {
-  const pathType = await checkPathType(path)
-
-  if (pathType === 'directory') throw new Error('Path is a directory')
-
   writeFile(path, content)
 }
