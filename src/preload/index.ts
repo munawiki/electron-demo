@@ -1,6 +1,19 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { IGetOSInformations, NetworkStatus } from '../shared/types'
+import io from 'socket.io-client'
+
+// Socket.io
+
+const socket = io('http://localhost:3000')
+
+socket.on('connect', () => {
+  console.log('connected')
+})
+
+socket.on('disconnect', () => {
+  console.log('disconnected')
+})
 
 // Custom APIs for renderer
 const api = {
@@ -12,7 +25,16 @@ const api = {
   crawlNews: (): Promise<string[]> => ipcRenderer.invoke('crawl-news'),
   getDynamicContents: (url: string): Promise<string> =>
     ipcRenderer.invoke('get-dynamic-contents', url),
-  extractZip: (filePaths: string): Promise<string[]> => ipcRenderer.invoke('extract-zip', filePaths)
+  extractZip: (filePaths: string): Promise<string[]> =>
+    ipcRenderer.invoke('extract-zip', filePaths),
+  sendSocketMessage: (message: string): void => {
+    socket.emit('chat message', message)
+  },
+  receiveSocketMessage: (callback: (message: string) => void): void => {
+    socket.on('message', (message) => {
+      callback(message)
+    })
+  }
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

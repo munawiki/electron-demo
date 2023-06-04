@@ -1,13 +1,22 @@
-import express from 'express'
+import cors from 'cors'
 import { Server } from 'socket.io'
+import express from 'express'
 
-const app = express()
+const server = express()
 
-const server = app.listen(3000, () => {
+server.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  })
+)
+
+const httpServer = server.listen(3000, () => {
   console.log('Server is running on port 3000')
 })
 
-const io = new Server(server)
+const io = new Server(httpServer)
 
 io.on('connection', (socket) => {
   console.log('a user connected')

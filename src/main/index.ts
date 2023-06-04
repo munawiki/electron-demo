@@ -8,6 +8,7 @@ import { handleReadFile, handleWriteFile } from './file'
 import { crawlNews } from './crawl'
 import { getDynamicContents } from './dynamic-contents'
 import { extractZip } from './zip'
+import './server.ts'
 
 function createWindow(): void {
   // Create the browser window.

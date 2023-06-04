@@ -3,9 +3,6 @@ import { UploadChangeParam } from 'antd/es/upload'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
 import { openDB } from 'idb'
-import { io } from 'socket.io-client'
-
-const socket = io('http://localhost:3000')
 
 function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<IGetOSInformations>()
@@ -117,7 +114,7 @@ function App(): JSX.Element {
   }
 
   const handleSendMessage = (chatMessage: string): void => {
-    socket.emit('chat message', chatMessage)
+    window.api.sendSocketMessage(chatMessage)
   }
 
   useEffect(() => {
@@ -134,8 +131,8 @@ function App(): JSX.Element {
     crawlNews()
     getDynamicContent('https://blog.munawiki.dev/')
 
-    socket.on('chat message', (msg: string) => {
-      console.log(msg)
+    window.api.receiveSocketMessage((message: string) => {
+      console.log(message)
     })
 
     return () => {
@@ -222,10 +219,10 @@ function App(): JSX.Element {
           </Space>
           <Divider />
           <h2>Dynamic Import</h2>
-          <iframe
+          {/* <iframe
             srcDoc={dynamicContent}
             style={{ width: '100%', height: '500px', border: 'none' }}
-          />
+          /> */}
           <Divider />
           <h2>Decompress Zip</h2>
           <Upload.Dragger name="file" multiple onChange={onFileUploadChange}>
