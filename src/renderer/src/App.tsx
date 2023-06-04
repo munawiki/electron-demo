@@ -239,6 +239,8 @@ function App(): JSX.Element {
           </Space>
           <h2>Chrome Background Service</h2>
           <button onClick={handleClickDownload}>download</button>
+          <Divider />
+          <h2>Network Topology</h2>
         </>
       )}
     </div>
