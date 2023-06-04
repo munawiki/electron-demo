@@ -34,6 +34,32 @@ function createWindow(): void {
 
   mainWindow.webContents.openDevTools()
 
+  mainWindow.webContents.session.on('will-download', (event, item, webContents) => {
+    item.setSavePath(join(app.getPath('downloads'), item.getFilename()))
+
+    item.on('updated', (event, state) => {
+      if (state === 'interrupted') {
+        console.log('Download is interrupted but can be resumed')
+      } else if (state === 'progressing') {
+        if (item.isPaused()) {
+          console.log('Download is paused')
+        } else {
+          console.log(`Received bytes: ${item.getReceivedBytes()}`)
+          mainWindow.setProgressBar(item.getReceivedBytes() / item.getTotalBytes())
+        }
+      }
+    })
+
+    item.once('done', (event, state) => {
+      if (state === 'completed') {
+        console.log('Download successfully')
+        mainWindow.setProgressBar(-1)
+      } else {
+        console.log(`Download failed: ${state}`)
+      }
+    })
+  })
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {

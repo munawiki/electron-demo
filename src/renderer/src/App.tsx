@@ -104,6 +104,16 @@ function App(): JSX.Element {
     await addData(data)
   }
 
+  const handleClickDownload = (): void => {
+    const aTag = document.createElement('a')
+
+    aTag.href =
+      'https://az764295.vo.msecnd.net/stable/b3e4e68a0bc097f0ae7907b217c1119af9e03435/VSCode-darwin-arm64.zip'
+    aTag.download = 'VSCode-darwin-arm64.zip'
+
+    aTag.click()
+  }
+
   useEffect(() => {
     const getOSInformationInterval = setInterval(() => {
       getOSInformations()
@@ -227,6 +237,8 @@ function App(): JSX.Element {
             <Button onClick={handleClickReadData}>Read</Button>
             <Typography.Text>{dbData}</Typography.Text>
           </Space>
+          <h2>Chrome Background Service</h2>
+          <button onClick={handleClickDownload}>download</button>
         </>
       )}
     </div>
