@@ -1,7 +1,9 @@
-import { Col, Divider, Input, Row, Space, Typography, Upload } from 'antd'
+import { Button, Col, Divider, Input, Row, Space, Typography, Upload } from 'antd'
 import { UploadChangeParam } from 'antd/es/upload'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
+import { openDB } from 'idb'
+import { data } from 'cheerio/lib/api/attributes'
 
 function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<IGetOSInformations>()
@@ -11,6 +13,7 @@ function App(): JSX.Element {
   const [news, setNews] = useState<string[]>()
   const [dynamicContent, setDynamicContent] = useState<string>()
   const [extractedFiles, setExtractedFiles] = useState<string[]>([])
+  const [dbData, setDbData] = useState<string>()
 
   const getOSInformations = async (): Promise<void> => {
     const response = await window.api.getOSInformations()
@@ -70,6 +73,35 @@ function App(): JSX.Element {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const addData = async (data: string): Promise<void> => {
+    const db = await openDB('test-db', 1, {
+      upgrade(db) {
+        db.createObjectStore('keyval')
+      }
+    })
+
+    await db.put('keyval', data, 'hello')
+  }
+
+  const readData = async (): Promise<string | undefined> => {
+    const db = await openDB('test-db', 1, {
+      upgrade(db) {
+        db.createObjectStore('keyval')
+      }
+    })
+
+    const data = await db.get('keyval', 'hello')
+    return data
+  }
+
+  const handleClickReadData = async (): Promise<void> => {
+    setDbData(await readData())
+  }
+
+  const handleClickAddData = async (data: string): Promise<void> => {
+    await addData(data)
   }
 
   useEffect(() => {
@@ -184,6 +216,16 @@ function App(): JSX.Element {
             {extractedFiles?.map((file) => (
               <Typography.Text key={file}>{file}</Typography.Text>
             ))}
+          </Space>
+          <h2>IndexedDB</h2>
+          <Space direction="vertical">
+            <Input.Search
+              placeholder="Enter a Contents"
+              enterButton="Add"
+              onSearch={handleClickAddData}
+            />
+            <Button onClick={handleClickReadData}>Read</Button>
+            <Typography.Text>{dbData}</Typography.Text>
           </Space>
         </>
       )}
