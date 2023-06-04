@@ -1,6 +1,6 @@
 import AdmZip from 'adm-zip'
 
-export const decompressZip = async (filePath: string): Promise<string[]> => {
+export const extractZip = async (filePath: string): Promise<string[]> => {
   const zip = new AdmZip(filePath)
   const zipEntries = zip.getEntries()
   const files: string[] = []

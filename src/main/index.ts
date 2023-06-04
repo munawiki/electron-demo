@@ -7,7 +7,7 @@ import { checkNetworkStatus } from './network'
 import { handleReadFile, handleWriteFile } from './file'
 import { crawlNews } from './crawl'
 import { getDynamicContents } from './dynamic-contents'
-import { decompressZip } from './zip'
+import { extractZip } from './zip'
 
 function createWindow(): void {
   // Create the browser window.
@@ -56,7 +56,7 @@ app.whenReady().then(() => {
   ipcMain.handle('write-file', (_, path: string, content: string) => handleWriteFile(path, content))
   ipcMain.handle('crawl-news', crawlNews)
   ipcMain.handle('get-dynamic-contents', (_, url: string) => getDynamicContents(url))
-  ipcMain.handle('decompress-zip', (_, filePaths: string) => decompressZip(filePaths))
+  ipcMain.handle('extract-zip', (_, filePaths: string) => extractZip(filePaths))
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.

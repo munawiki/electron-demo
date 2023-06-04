@@ -12,8 +12,7 @@ const api = {
   crawlNews: (): Promise<string[]> => ipcRenderer.invoke('crawl-news'),
   getDynamicContents: (url: string): Promise<string> =>
     ipcRenderer.invoke('get-dynamic-contents', url),
-  decompressZip: (filePaths: string): Promise<string[]> =>
-    ipcRenderer.invoke('decompress-zip', filePaths)
+  extractZip: (filePaths: string): Promise<string[]> => ipcRenderer.invoke('extract-zip', filePaths)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

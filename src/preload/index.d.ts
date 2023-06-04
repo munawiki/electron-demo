@@ -11,7 +11,7 @@ declare global {
       writeFile: (path: string, content: string) => Promise<void>
       crawlNews: () => Promise<string[]>
       getDynamicContents: (url: string) => Promise<string>
-      decompressZip: (filePaths: string) => Promise<string[]>
+      extractZip: (filePaths: string) => Promise<string[]>
     }
   }
 }
