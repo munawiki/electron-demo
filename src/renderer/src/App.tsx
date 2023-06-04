@@ -3,7 +3,6 @@ import { UploadChangeParam } from 'antd/es/upload'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
 import { openDB } from 'idb'
-import { data } from 'cheerio/lib/api/attributes'
 
 function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<IGetOSInformations>()
@@ -227,6 +226,7 @@ function App(): JSX.Element {
               <Typography.Text key={file}>{file}</Typography.Text>
             ))}
           </Space>
+          <Divider />
           <h2>IndexedDB</h2>
           <Space direction="vertical">
             <Input.Search
@@ -237,6 +237,7 @@ function App(): JSX.Element {
             <Button onClick={handleClickReadData}>Read</Button>
             <Typography.Text>{dbData}</Typography.Text>
           </Space>
+          <Divider />
           <h2>Chrome Background Service</h2>
           <button onClick={handleClickDownload}>download</button>
           <Divider />
