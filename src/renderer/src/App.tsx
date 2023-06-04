@@ -17,7 +17,7 @@ function App(): JSX.Element {
     setNetworkStatus(response)
   }
 
-  const onDirectorySearch = async (url: string): void => {
+  const onDirectorySearch = async (url: string): Promise<void> => {
     try {
       const response = await window.api.readFile(url)
       setFiles(response)
