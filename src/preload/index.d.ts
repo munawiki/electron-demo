@@ -7,9 +7,7 @@ declare global {
     api: {
       getOSInformations: () => Promise<IGetOSInformations>
       checkNetworkStatus: () => Promise<NetworkStatus>
-      writeHelloWorldTextFile: () => Promise<string>
-      readHelloWorldTextFile: () => Promise<string>
-      crawlNews: () => Promise<string[]>
+      readFile: (path: string) => Promise<string[] | string>
     }
   }
 }

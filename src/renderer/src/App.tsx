@@ -1,10 +1,22 @@
-import { Button, Divider, Progress, Typography, Upload } from 'antd'
+import { Divider, Input, Space, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
+
+// declare global {
+//   interface Window {
+//     electron: ElectronAPI
+//     api: {
+//       getOSInformations: () => Promise<IGetOSInformations>
+//       checkNetworkStatus: () => Promise<NetworkStatus>
+//       readFile: (path: string) => Promise<string[] | string>
+//     }
+//   }
+// }
 
 function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<IGetOSInformations>()
   const [networkStatus, setNetworkStatus] = useState<NetworkStatus>()
+  const [files, setFiles] = useState<string[] | string>()
 
   const getOSInformations = async (): Promise<void> => {
     const response = await window.api.getOSInformations()
@@ -14,6 +26,15 @@ function App(): JSX.Element {
   const checkNetworkStatus = async (): Promise<void> => {
     const response = await window.api.checkNetworkStatus()
     setNetworkStatus(response)
+  }
+
+  const onDirectorySearch = async (url: string): void => {
+    try {
+      const response = await window.api.readFile(url)
+      setFiles(response)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
@@ -79,6 +100,18 @@ function App(): JSX.Element {
           </p>
           <Divider />
           <h2>File Read / Write</h2>
+          <Input.Search
+            placeholder="Enter a path"
+            enterButton="Read"
+            onSearch={onDirectorySearch}
+          />
+          <Space direction="vertical">
+            {typeof files === 'string' ? (
+              <Typography.Text>{files}</Typography.Text>
+            ) : (
+              files?.map((file) => <Typography.Text key={file}>{file}</Typography.Text>)
+            )}
+          </Space>
         </>
       )}
     </div>

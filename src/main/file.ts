@@ -1,16 +1,33 @@
 import fsPromises from 'fs/promises'
-import path from 'path'
-import os from 'os'
 
-const tmpFolderPaths = os.tmpdir()
+const checkPathType = async (path: string): Promise<'directory' | 'file'> => {
+  const stats = await fsPromises.stat(path)
 
-export const writeHelloWorldTextFile = async (): Promise<string> => {
-  const filePath = path.join(tmpFolderPaths, 'hello-world.txt')
-  await fsPromises.writeFile(filePath, 'Hello World!')
-  return filePath
+  if (stats.isDirectory()) return 'directory'
+  if (stats.isFile()) return 'file'
+
+  throw new Error('Path is not a directory or file')
 }
 
-export const readHelloWorldTextFile = (): Promise<string> => {
-  const filePath = path.join(tmpFolderPaths, 'hello-world.txt')
-  return fsPromises.readFile(filePath, 'utf-8')
+export const readDirectory = async (path: string): Promise<string[]> => {
+  const files = await fsPromises.readdir(path)
+
+  const filesWithFullPath = files.map((file) => `${path}/${file}`)
+
+  return filesWithFullPath
+}
+
+export const readFile = async (path: string): Promise<string> => {
+  const file = await fsPromises.readFile(path, 'utf-8')
+
+  return file
+}
+
+export const handleReadFile = async (path: string): Promise<string[] | string> => {
+  const pathType = await checkPathType(path)
+
+  if (pathType === 'directory') return await readDirectory(path)
+  if (pathType === 'file') return await readFile(path)
+
+  throw new Error('Path is not a directory or file')
 }
