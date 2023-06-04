@@ -4,7 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { getOSInformations } from './os'
 import { checkNetworkStatus } from './network'
-import { handleReadFile } from './file'
+import { handleReadFile, handleWriteFile } from './file'
 
 function createWindow(): void {
   // Create the browser window.
@@ -50,6 +50,7 @@ app.whenReady().then(() => {
   ipcMain.handle('get-os-informations', getOSInformations)
   ipcMain.handle('check-network-status', checkNetworkStatus)
   ipcMain.handle('read-file', (_, path: string) => handleReadFile(path))
+  ipcMain.handle('write-file', (_, path: string, content: string) => handleWriteFile(path, content))
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.

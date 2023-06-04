@@ -6,7 +6,9 @@ import { IGetOSInformations, NetworkStatus } from '../shared/types'
 const api = {
   getOSInformations: (): Promise<IGetOSInformations> => ipcRenderer.invoke('get-os-informations'),
   checkNetworkStatus: (): Promise<NetworkStatus> => ipcRenderer.invoke('check-network-status'),
-  readFile: (path: string): Promise<string[] | string> => ipcRenderer.invoke('read-file', path)
+  readFile: (path: string): Promise<string[] | string> => ipcRenderer.invoke('read-file', path),
+  writeFile: (path: string, content: string): Promise<void> =>
+    ipcRenderer.invoke('write-file', path, content)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

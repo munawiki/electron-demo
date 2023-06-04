@@ -8,6 +8,7 @@ declare global {
       getOSInformations: () => Promise<IGetOSInformations>
       checkNetworkStatus: () => Promise<NetworkStatus>
       readFile: (path: string) => Promise<string[] | string>
+      writeFile: (path: string, content: string) => Promise<void>
     }
   }
 }

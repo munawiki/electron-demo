@@ -9,7 +9,7 @@ const checkPathType = async (path: string): Promise<'directory' | 'file'> => {
   throw new Error('Path is not a directory or file')
 }
 
-export const readDirectory = async (path: string): Promise<string[]> => {
+const readDirectory = async (path: string): Promise<string[]> => {
   const files = await fsPromises.readdir(path)
 
   const filesWithFullPath = files.map((file) => `${path}/${file}`)
@@ -17,10 +17,13 @@ export const readDirectory = async (path: string): Promise<string[]> => {
   return filesWithFullPath
 }
 
-export const readFile = async (path: string): Promise<string> => {
+const readFile = async (path: string): Promise<string> => {
   const file = await fsPromises.readFile(path, 'utf-8')
-
   return file
+}
+
+const writeFile = async (path: string, content: string): Promise<void> => {
+  await fsPromises.writeFile(path, content)
 }
 
 export const handleReadFile = async (path: string): Promise<string[] | string> => {
@@ -30,4 +33,12 @@ export const handleReadFile = async (path: string): Promise<string[] | string> =
   if (pathType === 'file') return await readFile(path)
 
   throw new Error('Path is not a directory or file')
+}
+
+export const handleWriteFile = async (path: string, content: string): Promise<void> => {
+  const pathType = await checkPathType(path)
+
+  if (pathType === 'directory') throw new Error('Path is a directory')
+
+  writeFile(path, content)
 }

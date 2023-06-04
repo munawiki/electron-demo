@@ -1,11 +1,17 @@
-import { Divider, Input, Space, Typography } from 'antd'
+import { Col, Divider, Form, Input, Row, Space, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
+
+// getOSInformations: () => Promise<IGetOSInformations>
+// checkNetworkStatus: () => Promise<NetworkStatus>
+// readFile: (path: string) => Promise<string[] | string>
+// writeFile: (path: string, content: string) => Promise<void>
 
 function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<IGetOSInformations>()
   const [networkStatus, setNetworkStatus] = useState<NetworkStatus>()
   const [files, setFiles] = useState<string[] | string>()
+  const [filePath, setFilePath] = useState<string>()
 
   const getOSInformations = async (): Promise<void> => {
     const response = await window.api.getOSInformations()
@@ -17,10 +23,27 @@ function App(): JSX.Element {
     setNetworkStatus(response)
   }
 
-  const onDirectorySearch = async (url: string): Promise<void> => {
+  const readFile = async (path: string): Promise<void> => {
+    const response = await window.api.readFile(path)
+    setFiles(response)
+  }
+
+  const onDirectorySearch = async (path: string): Promise<void> => {
+    setFilePath(path)
+
     try {
-      const response = await window.api.readFile(url)
-      setFiles(response)
+      await readFile(path)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const onWirteFileSearch = async (content: string): Promise<void> => {
+    if (!filePath) throw new Error('File path is not defined')
+
+    try {
+      await window.api.writeFile(filePath, content)
+      await readFile(filePath)
     } catch (error) {
       console.log(error)
     }
@@ -89,11 +112,22 @@ function App(): JSX.Element {
           </p>
           <Divider />
           <h2>File Read / Write</h2>
-          <Input.Search
-            placeholder="Enter a path"
-            enterButton="Read"
-            onSearch={onDirectorySearch}
-          />
+          <Row gutter={16} style={{ width: '100%' }}>
+            <Col span={8}>
+              <Input.Search
+                placeholder="Enter a path"
+                enterButton="Read"
+                onSearch={onDirectorySearch}
+              />
+            </Col>
+            <Col span={16}>
+              <Input.Search
+                placeholder="Enter a Contents"
+                enterButton="Write"
+                onSearch={onWirteFileSearch}
+              />
+            </Col>
+          </Row>
           <Space direction="vertical">
             {typeof files === 'string' ? (
               <Typography.Text>{files}</Typography.Text>
