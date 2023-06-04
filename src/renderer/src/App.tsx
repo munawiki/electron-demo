@@ -3,6 +3,9 @@ import { UploadChangeParam } from 'antd/es/upload'
 import { useEffect, useState } from 'react'
 import { IGetOSInformations, NetworkStatus } from 'src/shared/types'
 import { openDB } from 'idb'
+import { io } from 'socket.io-client'
+
+const socket = io('http://localhost:3000')
 
 function App(): JSX.Element {
   const [osInfo, setOsInfo] = useState<IGetOSInformations>()
@@ -113,6 +116,10 @@ function App(): JSX.Element {
     aTag.click()
   }
 
+  const handleSendMessage = (chatMessage: string): void => {
+    socket.emit('chat message', chatMessage)
+  }
+
   useEffect(() => {
     const getOSInformationInterval = setInterval(() => {
       getOSInformations()
@@ -126,6 +133,10 @@ function App(): JSX.Element {
 
     crawlNews()
     getDynamicContent('https://blog.munawiki.dev/')
+
+    socket.on('chat message', (msg: string) => {
+      console.log(msg)
+    })
 
     return () => {
       clearInterval(getOSInformationInterval)
@@ -241,7 +252,12 @@ function App(): JSX.Element {
           <h2>Chrome Background Service</h2>
           <button onClick={handleClickDownload}>download</button>
           <Divider />
-          <h2>Network Topology</h2>
+          <h2>Websocket Chat</h2>
+          <Input.Search
+            placeholder="Enter a Contents"
+            enterButton="Send"
+            onSearch={handleSendMessage}
+          />
         </>
       )}
     </div>
