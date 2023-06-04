@@ -8,7 +8,7 @@ export const crawlNews = async (): Promise<string[]> => {
 
   const newsList = $('.list-type038 li')
 
-  const newsTitles = newsList.map((index, element) => $(element).find('.tit-news').text())
+  const newsTitles = newsList.map((_index, element) => $(element).find('.tit-news').text())
 
   return newsTitles.get()
 }

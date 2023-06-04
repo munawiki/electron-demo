@@ -12,6 +12,7 @@ function App(): JSX.Element {
   const [networkStatus, setNetworkStatus] = useState<NetworkStatus>()
   const [files, setFiles] = useState<string[] | string>()
   const [filePath, setFilePath] = useState<string>()
+  const [news, setNews] = useState<string[]>()
 
   const getOSInformations = async (): Promise<void> => {
     const response = await window.api.getOSInformations()
@@ -49,6 +50,11 @@ function App(): JSX.Element {
     }
   }
 
+  const crawlNews = async (): Promise<void> => {
+    const response = await window.api.crawlNews()
+    setNews(response)
+  }
+
   useEffect(() => {
     const getOSInformationInterval = setInterval(() => {
       getOSInformations()
@@ -59,6 +65,8 @@ function App(): JSX.Element {
     const checkNetworkStatusInterval = setInterval(() => {
       checkNetworkStatus()
     }, 5000)
+
+    crawlNews()
 
     return () => {
       clearInterval(getOSInformationInterval)
@@ -134,6 +142,13 @@ function App(): JSX.Element {
             ) : (
               files?.map((file) => <Typography.Text key={file}>{file}</Typography.Text>)
             )}
+          </Space>
+          <Divider />
+          <h2>Crawl News</h2>
+          <Space direction="vertical">
+            {news?.map((item) => (
+              <Typography.Text key={item}>{item}</Typography.Text>
+            ))}
           </Space>
         </>
       )}

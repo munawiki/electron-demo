@@ -8,7 +8,8 @@ const api = {
   checkNetworkStatus: (): Promise<NetworkStatus> => ipcRenderer.invoke('check-network-status'),
   readFile: (path: string): Promise<string[] | string> => ipcRenderer.invoke('read-file', path),
   writeFile: (path: string, content: string): Promise<void> =>
-    ipcRenderer.invoke('write-file', path, content)
+    ipcRenderer.invoke('write-file', path, content),
+  crawlNews: (): Promise<string[]> => ipcRenderer.invoke('crawl-news')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

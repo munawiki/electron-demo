@@ -9,6 +9,7 @@ declare global {
       checkNetworkStatus: () => Promise<NetworkStatus>
       readFile: (path: string) => Promise<string[] | string>
       writeFile: (path: string, content: string) => Promise<void>
+      crawlNews: () => Promise<string[]>
     }
   }
 }
