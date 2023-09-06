@@ -1916,10 +1916,10 @@ electron-vite@^1.0.21:
     magic-string "^0.30.0"
     picocolors "^1.0.0"
 
-electron@^22.3.4:
-  version "22.3.11"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-22.3.11.tgz#db68c3f820eab9868ccf65bd4604c2805c4c93b9"
-  integrity sha512-4PW1rJRUckJUCxTXRJkzJ7qlGTZ8Qfwoke5aFlaGccmn/zViuE9iSCg9zqIx00rzsbF9R5j8j9V4tAqyqjjJRA==
+electron@^22.3.21:
+  version "22.3.21"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-22.3.21.tgz#a817446cc1e62e9650522fa7eae389f9fc5b5e19"
+  integrity sha512-9JzWgvehRrqA30M7RvWCwwbyq2EgPUSbCFaqyZGnG0B52m4ayB8H+uFNIKXyWuyFwAEPDpQW5cGwCzXir1HuLA==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^16.11.26"
